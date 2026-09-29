@@ -482,6 +482,13 @@ export default function App() {
     if (raceStatus === 'finished') await upsertSession(sessionId)
   }
 
+  const resetRealtime = () => {
+    channelRef.current?.unsubscribe()
+    channelRef.current = null
+    setStudents({})
+    localStudentsRef.current = {}
+  }
+
   const answerQuestion = async (index: number) => {
     setRace(previous => {
       if (!previous || !previous.current || previous.finished) return previous
@@ -526,8 +533,8 @@ export default function App() {
   if (view === 'role') return <RoleScreen onStudent={() => setView('student-login')} onTeacher={() => setView('teacher-login')} />
   if (view === 'teacher-login') return <TeacherLogin onBack={() => setView('role')} onSuccess={enterTeacher} />
   if (view === 'student-login') return <StudentLogin onBack={() => setView('role')} onReady={enterStudent} />
-  if (view === 'teacher-dashboard') return <TeacherDashboard students={studentList} raceStatus={raceStatus} onStart={startRace} onStop={stopRace} onLogout={() => { sessionStorage.removeItem('logaracing-teacher'); setView('role'); setRaceStatus('lobby') }} soundOn={soundOn} onSoundToggle={() => setSoundOn(value => !value)} />
-  if (view === 'student-dashboard' && student) return <StudentDashboard student={student} students={studentList} raceStatus={raceStatus} onLeave={() => { setView('role'); setStudent(null); studentRef.current = null }} />
+  if (view === 'teacher-dashboard') return <TeacherDashboard students={studentList} raceStatus={raceStatus} onStart={startRace} onStop={stopRace} onLogout={() => { resetRealtime(); sessionStorage.removeItem('logaracing-teacher'); setView('role'); setRaceStatus('lobby') }} soundOn={soundOn} onSoundToggle={() => setSoundOn(value => !value)} />
+  if (view === 'student-dashboard' && student) return <StudentDashboard student={student} students={studentList} raceStatus={raceStatus} onLeave={() => { resetRealtime(); setView('role'); setStudent(null); studentRef.current = null }} />
   if (view === 'race' && student && race) return <Cockpit student={student} race={race} onAnswer={answerQuestion} onExit={() => setView('student-dashboard')} />
   return <RoleScreen onStudent={() => setView('student-login')} onTeacher={() => setView('teacher-login')} />
 }

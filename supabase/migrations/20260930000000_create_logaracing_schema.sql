@@ -9,6 +9,9 @@ create table if not exists private.logaracing_teacher_credentials (
   created_at timestamptz not null default now()
 );
 
+-- Seed the teacher account through a one-time protected database operation.
+-- The credential is intentionally omitted from version control.
+
 revoke all on schema private from public, anon, authenticated;
 revoke all on private.logaracing_teacher_credentials from public, anon, authenticated;
 

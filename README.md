@@ -14,7 +14,7 @@ Isi `VITE_SUPABASE_URL` dan `VITE_SUPABASE_ANON_KEY` dengan URL dan legacy anon/
 
 ## Login guru
 
-Kredensial guru disimpan sebagai hash di schema private Supabase dan diverifikasi melalui RPC. UI hanya menampilkan form username dan password; kredensial tidak ditulis ke source code frontend.
+Kredensial guru disimpan sebagai hash di schema private Supabase dan diverifikasi melalui RPC. UI hanya menampilkan form username dan password; kredensial tidak ditulis ke source code frontend. Migration sengaja tidak berisi seed password; proyek Supabase yang disiapkan untuk deployment sudah memiliki satu akun guru melalui seed satu kali di database.
 
 ## Aturan game
 
